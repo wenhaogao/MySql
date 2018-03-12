@@ -1,55 +1,98 @@
--- 索引 
--- 聚集索引 (索引的排序和数据的排序保持一致) 字典(按照拼音查找)  
+#### -- 索引 
+
+##### -- 聚集索引
+(索引的排序和数据的排序保持一致) 字典(按照拼音查找)  
+
 -- a - z   a - z 排序
+
 -- 索引的排序还是数据的排序 都是一致  聚集索引  聚簇索引
 
--- 非聚集索引 索引的排序和数据的排序不一致  字典(按照偏旁部首查找) 
+##### -- 非聚集索引 
+索引的排序和数据的排序不一致  字典(按照偏旁部首查找) 
 
--- 主键索引 就是一个典型聚集索引
--- 聚集索引 一张表只能存在一个(排序规则) 一张表如果存在主键索引 那么就不能再添加聚集索引
+##### -- 主键索引 
+就是一个典型聚集索引
+
+##### -- 聚集索引 
+一张表只能存在一个(排序规则) 一张表如果存在主键索引 那么就不能再添加聚集索引
+
 -- 添加的索引默认都是非聚集索引
 
 -- 一张数据表的非聚集索引可以存在多个
 
 -- 控制流程
+
 -- 变量 (MYSQL 变量存在两种)
+
 -- 局部变量(只能定义在begin end 之间)
+
 -- begin end 定义SQL块({begin }end)
+
 -- MYSQL 不支持SQL块
--- 如果需要定义begin end 需要定义数据对象
+
+-- 如果需要定义begin end
+
+需要定义数据对象
+
 -- 存储过程
 
 -- 存储过程:
+
 -- 类似于程序语言中的函数 或者 方法
+
 -- 先要创建  调用
+
 -- 创建 存储服务器 提前编译
 
--- 创建了一个存储过程  在服务器上保存一个数据对象   创建的的数据对象 需要编译(DBMS) 
+-- 创建了一个存储过程 
+
+在服务器上保存一个数据对象   创建的的数据对象 需要编译(DBMS) 
+
 -- 存储过程优点:
+
 -- 1:效率高(提前编译,提前对存储过程进行优化)
+
 -- 2:安全性高(封装性，隐藏敏感的数据和业务 不暴露给客户端)
+
 -- 3:减少客户端和服务器之间网络流量
+
 -- 4:使SQL具有模块化功能
 
 -- 存储过程的创建
+
 -- 创建 procedure(过程) proc() 存储过程的名字
+
+```
 CREATE PROCEDURE proc()
 -- begin{
 BEGIN
 END
 -- }
-
-DROP PROCEDURE IF EXISTS proc
+```
 
 -- 修改当前的SQL结束符号
+
+```
 DELIMITER $$
 CREATE PROCEDURE proc()
 BEGIN
-   -- select 查询某张数据表中的数据  2:select 'hello'; 输出(以表格的形式输出)
-   SELECT 'hello';
+```
+
+   -- select 查询某张数据表中的数据  
+```
+select 'hello';
+```
+ 输出(以表格的形式输出)
+
+```
+SELECT 'hello';
 END $$
+```
+
 
 -- 调用存储过程
+
+```
 CALL proc()
 
 DROP PROCEDURE IF EXISTS proc
@@ -57,23 +100,44 @@ DROP PROCEDURE IF EXISTS proc
 DELIMITER $$
 CREATE PROCEDURE proc()
 BEGIN
+```
+
 -- MYSQL中定义变量必须使用declare 关键字
+
 -- 先定义变量的名称  在规定数据类型
- DECLARE i INT;
- -- MYSQL 规定 给变量赋值必须使用set关键字
- SET i=10;
+
+ 
+```
+DECLARE i INT;
+```
+
+ -- MYSQL 规定
+ 
+ 给变量赋值必须使用set关键字
+
+```
+SET i=10;
+```
+
+ 
  -- 以表格的形式输出变量的值
- SELECT i;
+
+```
+SELECT i;
 END $$
+```
+
 
 -- select 给变量进行赋值
 
 -- 变量的赋值
 -- 1: set 只能给当前的变量赋常量值(10,200)
+
 -- 2: select 可以把数据表的列的数据查询出来赋值给变量
 
 
 
+```
 DELIMITER $$
 CREATE PROCEDURE proc()
 BEGIN
@@ -88,8 +152,12 @@ DROP PROCEDURE IF EXISTS proc
 DELIMITER $$
 CREATE PROCEDURE proc()
 BEGIN
+```
+
   -- 定义变量并给变量赋初始值
-  DECLARE i INT DEFAULT 1;
+ 
+```
+DECLARE i INT DEFAULT 1;
   SELECT i;
   SET i=100;
   SELECT i;
@@ -104,6 +172,8 @@ BEGIN
    SELECT stuName INTO sname FROM student WHERE stuId=i;
    SELECT sname;
 END $$
+```
+
 
 
 

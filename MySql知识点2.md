@@ -1,3 +1,5 @@
+
+```
 CREATE DATABASE Test
 
 USE Test
@@ -147,10 +149,13 @@ INSERT INTO score VALUES
 SELECT * FROM score
 
 UPDATE score SET score=score-sid-cid
+```
 
 
 -- 课程  成绩 
 
+
+```
 SELECT * FROM score WHERE cid IN(1,2) GROUP BY cid,sid
 
 UPDATE score SET score=score+10 WHERE cid = 2 AND sid IN(1,2,3)
@@ -187,16 +192,24 @@ BEGIN
   UNTIL num=0 END REPEAT;
   CLOSE stuCur;
  END //
+```
+
 
 
 -- 指针  
-SELECT * FROM student 
+
+```
+SELECT * FROM student
+```
+
 
 -- 客户端的内存(Java ResultSet 指针(指向了结果集的首行之前) next()) 行级指针(一次只能指向一行 读取也是读取一行)
 -- 数组 int[] nums[1,2,3,4,5,6,7,8] nums[2] 连续空间 nums 一片空间首地址 
 -- 游标(行级指针) ResultSet 
 -- 游标(数据类型 不是数据对象 int char)
 -- 不支持sql块 (mysql 变量必须定义在begin 个 end 之间) 
+
+```
 DROP PROCEDURE IF EXISTS proc;
 DELIMITER $
 CREATE PROCEDURE proc()
@@ -205,15 +218,31 @@ BEGIN
   DECLARE sname VARCHAR(20);
   DECLARE ssex CHAR(6);
   DECLARE sage INT;
+```
+
   -- 定义游标(说明有一个游标的变量 指向一个结果集(结果集没有产生))
-  DECLARE num INT DEFAULT 1;
+
+```
+DECLARE num INT DEFAULT 1;
   DECLARE stuCursor CURSOR FOR SELECT * FROM student;
+```
+
   -- 定义一个游标事件(事件的类型是游标找不到数据 则 num等于0)
-  DECLARE CONTINUE HANDLER FOR NOT FOUND SET num:=0;
+ 
+```
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET num:=0;
+```
+
   -- open 以后 实际产生结果集 游标指向首地址之前
-  OPEN stuCursor;
+ 
+```
+OPEN stuCursor;
+```
+
   -- 提取数据存入到指定的变量中
-  REPEAT
+ 
+```
+REPEAT
   FETCH stuCursor INTO stuId,sname,ssex,sage;
   -- 输出
   SELECT stuId,sname,ssex,sage;
@@ -234,33 +263,73 @@ BEGIN
   DECLARE ssex CHAR(6);
   DECLARE sage INT;
   DECLARE stuCursor CURSOR FOR SELECT * FROM student;
+```
+
   -- open 以后 实际产生结果集 游标指向首地址之前
-  OPEN stuCursor;
+
+```
+OPEN stuCursor;
+```
+
   -- 提取数据存入到指定的变量中
-  FETCH stuCursor INTO stuId,sname,ssex,sage;
+  
+```
+FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   FETCH stuCursor INTO stuId,sname,ssex,sage;
+```
+
   -- 输出
-  SELECT stuId,sname,ssex,sage;
+ 
+```
+SELECT stuId,sname,ssex,sage;
   CLOSE stuCursor;
 END $
 
@@ -367,11 +436,13 @@ DESC student
 DESC innodb_sys_indexes
 
 SELECT * FROM innodb_sys_indexes
+```
 
 -- 约束(主要是用来保障数据的完整性(数据正确性(满足语法要求int) 满足业务需求))
 -- 主键约束(不能为null 不能重复)
 -- 唯一性约束(当前列值不能出现重复)
 
+```
 SHOW TABLES
 
 CREATE TABLE student(
@@ -379,14 +450,22 @@ CREATE TABLE student(
    stuName VARCHAR(20),
    -- 主键
    PRIMARY KEY(stuId),
+```
+
    -- 添加约束(约束的类型是唯一 约束的列是stuName)
-   CONSTRAINT UQ_STUNAME UNIQUE(stuName)
+ 
+```
+CONSTRAINT UQ_STUNAME UNIQUE(stuName)
 )
 
 CREATE TABLE student(
    stuId INT PRIMARY KEY,
+```
+
    -- 创建的列 添加一个唯一标识(唯一性约束)
-   stuName VARCHAR(20) UNIQUE
+  
+```
+stuName VARCHAR(20) UNIQUE
 )
 
 CREATE TABLE student(
@@ -394,17 +473,28 @@ CREATE TABLE student(
    stuName VARCHAR(20),
    PRIMARY KEY(stuId)
 )
+```
+
 -- 唯一性约束
+
+```
 ALTER TABLE student ADD CONSTRAINT UQ_STUNAME UNIQUE(stuName)
+```
 
 -- 修改表 修改列的属性(not null )
+
+```
 ALTER TABLE student CHANGE COLUMN stuName stuName VARCHAR(20) NOT NULL
 
 ALTER TABLE student CHANGE COLUMN stuName sname VARCHAR(20) NOT NULL
 
 ALTER TABLE student CHANGE COLUMN stuName stuName VARCHAR(20) NOT NULL
+```
+
 
 -- 默认值(列的属性 not null)
+
+```
 CREATE TABLE student(
    stuId INT,
    stuName VARCHAR(20) DEFAULT '姓名' NOT NULL,
@@ -417,16 +507,24 @@ CREATE TABLE student(
    stuName VARCHAR(20) NOT NULL,
    PRIMARY KEY(stuId)
 )
+```
+
 
 -- 主键  唯一 约束对象
 
--- 修改列的名称 数据类型 not null default
+-- 修改列的名称 数据类型 not null 
+```
+default
 ALTER TABLE student CHANGE COLUMN stuName stuName VARCHAR(20) DEFAULT 'hello'
 
 INSERT INTO student VALUES(1,DEFAULT)
+```
+
 
 -- 性别(男，女)
 -- 枚举数据类型
+
+```
 CREATE TABLE student(
    stuId INT,
    stuName VARCHAR(20),
@@ -434,6 +532,8 @@ CREATE TABLE student(
    test SET('Java','C++','C#','JavaScript'),
    PRIMARY KEY(stuId)
 )
+```
+
 
 -- enum('','','') 取值范围只能是定义的值 一次只能取一个
 -- set('','','','') 取值范围只能是定义的值 一次取多个 值使用一个'值,值'
@@ -447,6 +547,8 @@ CREATE TABLE student(
 -- 外键一般都是在多方
 -- 外键应该是在Student方(外键存储的表 外键表) 引用class数据  class 主键表
 
+
+```
 DROP TABLE student
 
 CREATE TABLE class(
@@ -462,8 +564,12 @@ CREATE TABLE student(
    stuAge INT,
    classId INT,
    PRIMARY KEY(stuId),
+```
+
    -- 约束 约束名称 约束的表达式 
-   CONSTRAINT FK_CLASSID FOREIGN KEY(classId) REFERENCES class(classId)
+  
+```
+CONSTRAINT FK_CLASSID FOREIGN KEY(classId) REFERENCES class(classId)
 )
 
 DROP TABLE student
@@ -479,6 +585,7 @@ CREATE TABLE student(
 ALTER TABLE student DROP PRIMARY KEY
 
 ALTER TABLE student ADD CONSTRAINT FK_CLASSID FOREIGN KEY(classId) REFERENCES class(classId)
+```
 
 -- 外键约束(允许为null 必须是引用表存在的数据 外键可以重复)
 -- 外键为空情况 当前记录和其他表没有关系
@@ -487,6 +594,7 @@ ALTER TABLE student ADD CONSTRAINT FK_CLASSID FOREIGN KEY(classId) REFERENCES cl
 -- 删除主键表的数据时，需要先解除关系
 
 
+```
 SELECT * FROM class
 
 SELECT * FROM student
@@ -505,9 +613,11 @@ UPDATE student SET classId=NULL WHERE classId=1
 UPDATE student SET classId=1 WHERE classId IS NULL
 
 DELETE FROM student
+```
+
 
 -- 枚举类型取值是规定的范围(每次只能去一个值) 爱好()
-
+```
 INSERT INTO student VALUES(3,'张三','女','Java,C++,JavaScript')
 
 
@@ -534,10 +644,18 @@ SELECT bookAuthor,bookPrice,bookId,bookName,bookInfo FROM book
 -- 在结果集上添加固定列
 SELECT bookId,bookName,bookPrice,bookAuthor,bookInfo, '北京大学'
  FROM book
+```
+
 -- 数值类型的数据+
+
+```
 SELECT bookId+bookPrice 编号价格 FROM book
+```
+
 
 -- 过滤行
+
+```
 SELECT * FROM book WHERE FALSE
 
 SELECT * FROM book WHERE booKId=1
@@ -575,7 +693,11 @@ SELECT * FROM book WHERE bookName IS NULL
 SELECT * FROM book WHERE bookName IS NOT NULL
 
 INSERT INTO book VALUES(41,'九阳神功','张无忌',1002.33,'测试数据')
+```
+
 -- _ 任意一个字符 % 任意多个任意字符
+
+```
 SELECT * FROM book WHERE bookAuthor LIKE '张%'
 
 SELECT * FROM book WHERE bookAuthor NOT LIKE '张%'
@@ -585,12 +707,20 @@ SELECT * FROM users
 SELECT * FROM users WHERE userName='admin' AND userPwd='abbb'
 
 SELECT * FROM book WHERE bookId=1 OR bookName='Java权威指南2'
+```
+
 
 -- and or not && || !
 
 -- 排序(下面的语句排序不固定 不保障有序)
+
+```
 SELECT * FROM book
+```
+
 -- 指定按照bookId排序 升序(asc) 升序可以省略
+
+```
 SELECT * FROM book ORDER BY bookId ASC
 
 SELECT * FROM book ORDER BY bookId DESC
@@ -598,38 +728,84 @@ SELECT * FROM book ORDER BY bookId DESC
 SELECT * FROM book ORDER BY bookAuthor,bookId DESC
 
 INSERT INTO book VALUES(44,NULL,NULL,NULL,NULL)
+```
+
 
 -- 聚合函数(统计函数)
 -- 统计book表的行数
 -- 按照bookId统计(只要bookId不为null)
+
+```
 SELECT COUNT(bookId) FROM book
 SELECT COUNT(bookName) FROM book
 SELECT COUNT(bookAuthor) FROM book
+```
+
 -- 按照全部列统计 只要没有全部列都为null
+
+```
 SELECT COUNT(*) FROM book
+```
+
 -- 统计bookId列的值最大数据
+
+```
 SELECT MAX(bookId) FROM book
+```
+
 -- 统计bookId列的值最小值
+
+```
 SELECT MIN(bookId) FROM book
+```
+
 -- 统计bookId的和(全部加到一起)
+
+```
 SELECT SUM(bookId) FROM book
+```
+
 -- 统计bookId 平均值
+
+```
 SELECT AVG(bookId) FROM book
+```
+
 
 -- 过滤重复项
+
+```
 SELECT DISTINCT bookAuthor FROM book
+```
+
 
 -- 分组
+
+```
 SELECT *,COUNT(bookId),MAX(booKId) FROM book GROUP BY bookAuthor
+```
+
 -- 在分组之前先过滤到bookId<=10 的数据(bookId<=10 的数据不参与分组)
+
+```
 SELECT *,COUNT(bookId) FROM book WHERE bookId>10 GROUP BY bookAuthor
+```
+
 
 -- 查询作者的数据数量大于10本的信息
+
+```
 SELECT *,COUNT(bookid) FROM book GROUP BY bookAuthor HAVING COUNT(bookId)>10
+```
+
 
 -- 查询作者的书籍数量大于10本 并bookId>10 
+
+```
 SELECT *,COUNT(bookid) FROM book WHERE bookId>10 
 	GROUP BY bookAuthor HAVING COUNT(bookId)>10
+```
+
 	
 -- 编号 姓名 科目 成绩
 --  1   张三 语文   90
@@ -643,12 +819,17 @@ SELECT *,COUNT(bookid) FROM book WHERE bookId>10
     9   王五 英语   97
     
 -- 查询出所有科目的成绩都在90以上的学员信息
+
+```
 SELECT * FROM score GROUP BY 姓名 HAVING MIN(成绩)>90
+```
+
 
 
 -- 基本的查询
 -- 多表查询
 
+```
 DESC student
 
 INSERT INTO class VALUES(3,'100003'),(4,'100004'),(5,'100005')
@@ -712,39 +893,53 @@ SELECT student.stuId,student.stuName,student.stuSex,student.stuAge,
        INNER JOIN teacher
        ON class.teacherId=teacher.teacherId
        ORDER BY stuId
+```
+
        
 -- 2:外链接(左外链接 右外链接)
 -- 左外链接(是以left outer join 左边的数据表为主表)
 -- 主表中存在的数据都出现(如果主表中的数据和链接的数据不存在关系)显示null
+
+```
 SELECT student.stuId,student.stuName,student.stuSex,student.stuAge,
 	class.className
        FROM student LEFT OUTER JOIN class
        ON student.classId=class.classid
-       ORDER BY stuId    
+       ORDER BY stuId
+```
+ 
        
 -- 右外链接(以right outer join 右边的为主表)
+```
 SELECT student.stuId,student.stuName,student.stuSex,student.stuAge,
 	class.className
        FROM student RIGHT OUTER JOIN class
        ON student.classId=class.classid
        ORDER BY stuId
-       
+```
+
 -- 3:交叉链接(笛卡尔积)
+
+```
 SELECT student.stuId,student.stuName,student.stuSex,student.stuAge,
 	class.className
        FROM student CROSS JOIN class
-       
+```
+
 -- 子查询
 -- 在一个查询中包含另外一个查询
 -- 查询出100002 班级所有的学生信息
 -- 已知条件是班级名称 需要数据学生信息
 
+
+```
 SELECT classId FROM class WHERE className='100002'
 
 SELECT * FROM student WHERE classid=2
 
 SELECT * FROM student WHERE 
 	classId=(SELECT classId FROM class WHERE className='100002')
+```
 
 -- exists() 判断存在不存在 如果括号内的查询返回有数据 true
 
